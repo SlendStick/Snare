@@ -143,7 +143,7 @@ func _physics_process(delta: float) -> void:
 				- (1.0 if Input.is_key_pressed(KEY_S) else 0.0)
 			)
 		)
-		. clamped(1.0)
+		. limit_length(1.0)
 	)
 	crouched = Input.is_key_pressed(KEY_CTRL) and not service_mode
 	var running: bool = (

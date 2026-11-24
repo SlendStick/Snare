@@ -119,7 +119,7 @@ static func light_cone() -> StandardMaterial3D:
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	mat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
-	mat.cull_mode = BaseMaterial3D.CULL_MODE_DISABLED
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	_cache["cone"] = mat
 	return mat
