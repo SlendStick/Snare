@@ -1,0 +1,5 @@
+# Godot 4 local import cache and exports
+.godot/
+*.import
+export.cfg
+export_presets.cfg

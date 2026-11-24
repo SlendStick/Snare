@@ -1,0 +1,43 @@
+name: Code checks
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  gdscript:
+    name: GDScript format & lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install gdtoolkit
+        run: pip install gdtoolkit==4.5.0
+      - name: Check formatting
+        run: find scripts -name '*.gd' -print0 | xargs -0 gdformat --check
+      - name: Lint scripts
+        run: find scripts -name '*.gd' -print0 | xargs -0 gdlint
+
+  godot-import:
+    name: Godot 4.3 headless import
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Godot
+        run: |
+          curl -fsSL -o godot.zip \
+            https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.3-stable_linux.x86_64
+      - name: Import project and parse resources
+        run: |
+          set -o pipefail
+          ./Godot_v4.3-stable_linux.x86_64 --headless --editor --quit-after 20 --path . 2>&1 | tee godot-import.log
+          if grep -Ei 'script error|parse error|error:.*\.gd|error:.*\.tscn|error:.*\.gdshader' godot-import.log; then
+            echo "Godot reported resource errors"
+            exit 1
+          fi
