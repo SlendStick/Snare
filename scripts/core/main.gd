@@ -19,7 +19,7 @@ func _ready() -> void:
 	env.ambient_light_color = Color(0.06, 0.07, 0.09)
 	env.ambient_light_energy = 0.035
 	env.fog_enabled = true
-	env.fog_color = Color(0.012, 0.014, 0.018)
+	env.fog_light_color = Color(0.012, 0.014, 0.018)
 	env.fog_density = 0.055
 	env.fog_sky_affect = 0.0
 	var world_env := WorldEnvironment.new()

@@ -48,3 +48,18 @@ jobs:
             echo "Godot reported resource errors"
             exit 1
           fi
+      - name: Smoke run the game
+        run: |
+          set -o pipefail
+          ./Godot_v4.3-stable_linux.x86_64 --headless --path . --quit-after 30 2>&1 | tee godot-run.log
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "::error::Game exited with status $status"
+          fi
+          while IFS= read -r line; do
+            echo "::error title=Runtime diagnostic::$line"
+          done < <(grep -Ei 'script error|parse error|error:' godot-run.log || true)
+          if [ "$status" -ne 0 ] || grep -Eqi 'script error|parse error|error:' godot-run.log; then
+            echo "Game reported runtime errors"
+            exit 1
+          fi
