@@ -64,7 +64,7 @@ func set_target(t: Node3D) -> void:
 	target = t
 
 func _setup_audio() -> void:
-	var s := AudioSynth.get_sfx("monster_breath")
+	var s: AudioStream = AudioSynth.get_sfx("monster_breath")
 	breath_player.stream = s
 	breath_player.volume_db = -6.0
 	breath_player.max_distance = 35.0
