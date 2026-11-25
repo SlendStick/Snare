@@ -79,6 +79,7 @@ func _setup_materials() -> void:
 
 func _ensure_battery_mesh() -> void:
 	_battery_mesh = MeshInstance3D.new()
+	_battery_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	var cyl := CylinderMesh.new()
 	cyl.top_radius = 0.018
 	cyl.bottom_radius = 0.018

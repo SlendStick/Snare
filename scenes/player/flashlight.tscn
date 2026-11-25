@@ -31,10 +31,12 @@ spot_angle_attenuation = 0.8
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_body")
 
 [node name="HeadMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.13)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_head")
 
 [node name="Cap" type="Node3D" parent="."]
@@ -42,6 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.13)
 
 [node name="CapMesh" type="MeshInstance3D" parent="Cap"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_cap")
 
 [node name="BatterySlot" type="Node3D" parent="."]
