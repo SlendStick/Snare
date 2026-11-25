@@ -31,9 +31,10 @@ void fragment() {
 	float grain = (rand(uv * TIME * 60.0) - 0.5) * (grain_strength + fear * 0.05);
 	color += grain;
 
-	// Vignette
-	float vig = smoothstep(0.75, 0.2 - fear * 0.08, dist * (1.0 + vignette_strength + fear * 0.5));
-	color *= mix(0.25, 1.0, vig);
+	// Vignette: bright center, dark edges
+	float vig_x = dist * (1.0 + vignette_strength + fear * 0.5);
+	float vig = 1.0 - smoothstep(0.25 - fear * 0.05, 0.85, vig_x);
+	color *= mix(0.18, 1.0, vig);
 
 	// Fear tint: slight red/dark desaturation
 	vec3 fear_tint = vec3(color.r * 1.1, color.g * 0.85, color.b * 0.85);
