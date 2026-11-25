@@ -212,7 +212,7 @@ func _process(delta: float) -> void:
 
 	_light.light_energy = energy
 	_cone.visible = energy > 0.25
-	_lens_material.emissive_energy = 0.2 + energy * 0.6
+	_lens_material.emission_energy_multiplier = 0.2 + energy * 0.6
 
 	# Визуал: дрожь от встряхивания и поднесение фонаря к лицу в режиме обслуживания.
 	var jitter := Vector3.ZERO

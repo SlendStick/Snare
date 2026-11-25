@@ -114,10 +114,14 @@ func build(gen, cc: Vector2i, rng: RandomNumberGenerator) -> void:
 func remove_wall(c: Vector2i, dir: int) -> void:
 	var key := wall_key(c, dir)
 	if wall_nodes.has(key):
-		var node: Node = wall_nodes[key]
+		var node = wall_nodes[key]
 		wall_nodes.erase(key)
 		if is_instance_valid(node):
-			node.queue_free()
+			# Не удаляем узел: скрываем и выключаем коллизию, чтобы не дёргать рендер.
+			node.visible = false
+			if node is CollisionObject3D:
+				node.collision_layer = 0
+				node.collision_mask = 0
 
 
 func _add_box(pos: Vector3, size: Vector3, mat: Material, collide: bool) -> Node3D:

@@ -380,7 +380,7 @@ func _animate(delta: float) -> void:
 		if is_instance_valid(eye):
 			var mat: StandardMaterial3D = eye.material_override as StandardMaterial3D
 			if mat:
-				mat.emissive_energy = 0.7 + 0.6 * absf(sin(_anim_time * 2.3))
+				mat.emission_energy_multiplier = 0.7 + 0.6 * absf(sin(_anim_time * 2.3))
 
 
 func _build_body() -> void:

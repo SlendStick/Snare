@@ -33,15 +33,18 @@ static func _material(
 	if _cache.has(id):
 		return _cache[id] as StandardMaterial3D
 	var tex := noise_texture(seed_value, frequency)
+	var normal_tex := noise_texture(seed_value + 17, frequency)
+	normal_tex.as_normal_map = true
+	normal_tex.bump_strength = bump
 	var mat := StandardMaterial3D.new()
 	mat.albedo_texture = tex
 	mat.albedo_color = tint
 	mat.roughness = roughness
 	mat.roughness_texture = tex
 	mat.metallic = metallic
-	mat.bump_enabled = true
-	mat.bump_texture = tex
-	mat.bump_strength = bump
+	mat.normal_enabled = true
+	mat.normal_texture = normal_tex
+	mat.normal_scale = 0.6
 	_cache[id] = mat
 	return mat
 
@@ -90,9 +93,9 @@ static func emissive(color: Color, energy: float = 1.5) -> StandardMaterial3D:
 		return _cache[id] as StandardMaterial3D
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = color
-	mat.emissive_enabled = true
-	mat.emissive_color = color
-	mat.emissive_energy = energy
+	mat.emission_enabled = true
+	mat.emission = color
+	mat.emission_energy_multiplier = energy
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_cache[id] = mat
 	return mat
