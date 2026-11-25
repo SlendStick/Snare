@@ -149,7 +149,7 @@ func _update_labels() -> void:
 		sublabel.text = "%s\n%s" % [bar, _feedback if _feedback_t > 0 else ""]
 
 func _draw() -> void:
-	if not active:
+	if not active or not visible:
 		return
 	var center := size * 0.5 + Vector2(0, 40)
 	var radius := 52.0
