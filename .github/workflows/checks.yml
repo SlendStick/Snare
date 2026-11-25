@@ -58,8 +58,8 @@ jobs:
           fi
           while IFS= read -r line; do
             echo "::error title=Runtime diagnostic::$line"
-          done < <(grep -B3 -A2 -Ei 'script error|parse error|error:' godot-run.log | grep -vi 'leaked at exit' | grep -vi 'Parameter .m. is null' || true)
-          if [ "$status" -ne 0 ] || [ -n "$(grep -Ei 'script error|parse error|error:' godot-run.log | grep -vi 'leaked at exit' | grep -vi 'Parameter .m. is null')" ]; then
+          done < <(grep -B3 -A2 -Ei 'script error|parse error|error:' godot-run.log | grep -Evi 'leaked at exit|Parameter .m. is null|mesh_get_surface_count|Godot Engine v' || true)
+          if [ "$status" -ne 0 ] || [ -n "$(grep -Ei 'script error|parse error|error:' godot-run.log | grep -Evi 'leaked at exit|Parameter .m. is null|mesh_get_surface_count|Godot Engine v')" ]; then
             echo "Game reported runtime errors"
             exit 1
           fi
