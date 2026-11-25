@@ -112,8 +112,8 @@ func _update_occupant_camera(delta: float) -> void:
 	# Gently lock camera to hide position looking out through slits
 	var target_pos := hide_cam_pos.global_position
 	cam.global_position = cam.global_position.lerp(target_pos, 10.0 * delta)
-	# Look out forward of locker (door side is +Z local)
-	var forward := -global_transform.basis.z
+	# Look out through door slits (door side is +Z local)
+	var forward := global_transform.basis.z
 	var look_target := hide_cam_pos.global_position + forward * 2.0
 	look_target += global_transform.basis.x * _look_offset.x * 0.3
 	look_target.y += _look_offset.y * 0.2
