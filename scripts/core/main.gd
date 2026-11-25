@@ -29,7 +29,7 @@ func _ready() -> void:
 	var weak_moon := DirectionalLight3D.new()
 	weak_moon.light_energy = 0.016
 	weak_moon.light_color = Color(0.45, 0.52, 0.68)
-	weak_moon.rotation_deg = Vector3(38.0, 24.0, 0.0)
+	weak_moon.rotation_degrees = Vector3(38.0, 24.0, 0.0)
 	add_child(weak_moon)
 
 	var maze = MAZE_SCENE.instantiate()
