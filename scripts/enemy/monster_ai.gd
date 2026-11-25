@@ -27,7 +27,7 @@ var _last_known_player_pos: Vector3 = Vector3.ZERO
 var _investigate_pos: Vector3 = Vector3.ZERO
 var _search_points: Array[Vector3] = []
 var _search_idx: int = 0
-var _target_locker: Node = null
+var _target_locker: Node3D = null
 var _saw_player_enter_locker: bool = false
 var _kill_cooldown: float = 0.0
 
@@ -233,15 +233,16 @@ func _update_perception(delta: float) -> void:
 		_saw_player_enter_locker = false
 	elif can_see and player_hidden:
 		var locker = target.current_locker if target.get("current_locker") != null else null
-		if locker:
-			_target_locker = locker
+		var locker_node3d := locker as Node3D
+		if locker_node3d:
+			_target_locker = locker_node3d
 			_saw_player_enter_locker = true
-			_last_known_player_pos = locker.global_position
+			_last_known_player_pos = locker_node3d.global_position
 			if state == State.CHASE:
 				_enter_state(State.CHECK_LOCKER)
 	elif state == State.CHASE and player_hidden:
 		# Player disappeared while we were chasing - maybe entered locker nearby
-		var locker2 = target.get("current_locker")
+		var locker2 = target.get("current_locker") as Node3D
 		if locker2 and is_instance_valid(locker2):
 			var d := global_position.distance_to(locker2.global_position)
 			if d < 8.0 and _state_timer < 1.5:
@@ -271,11 +272,14 @@ func _update_perception(delta: float) -> void:
 		_locker_check_timer = 1.5
 		if state in [State.PATROL, State.SEARCH, State.INVESTIGATE]:
 			for locker in get_tree().get_nodes_in_group("locker"):
-				if locker.has_method("has_light_leak") and locker.has_light_leak():
-					var d := global_position.distance_to(locker.global_position)
+				var locker_node3d := locker as Node3D
+				if locker_node3d == null:
+					continue
+				if locker_node3d.has_method("has_light_leak") and locker_node3d.has_light_leak():
+					var d := global_position.distance_to(locker_node3d.global_position)
 					if d < 12.0:
-						_investigate_pos = locker.global_position
-						_last_known_player_pos = locker.global_position
+						_investigate_pos = locker_node3d.global_position
+						_last_known_player_pos = locker_node3d.global_position
 						if state != State.INVESTIGATE:
 							_enter_state(State.INVESTIGATE)
 						break
@@ -549,21 +553,26 @@ func on_noise_heard(pos: Vector3, intensity: float = 1.0) -> void:
 		_enter_state(State.INVESTIGATE)
 
 func force_kill_at_locker(locker: Node) -> void:
-	_target_locker = locker
+	var locker_node := locker as Node3D
+	_target_locker = locker_node
 	_saw_player_enter_locker = true
-	global_position = locker.global_position + locker.global_transform.basis.z * 1.2
-	global_position.y = 0.0
+	if locker_node:
+		global_position = locker_node.global_position + locker_node.global_transform.basis.z * 1.2
+		global_position.y = 0.0
 	_kill_in_locker(locker)
 
 func _kill_in_locker(locker: Node) -> void:
 	if state == State.KILL:
+		return
+	var locker_node := locker as Node3D
+	if locker_node == null:
 		return
 	state = State.KILL
 	_state_timer = 0.0
 	velocity = Vector3.ZERO
 	_path = PackedVector3Array()
 	# Face locker
-	var to_locker := locker.global_position - global_position
+	var to_locker: Vector3 = locker_node.global_position - global_position
 	to_locker.y = 0
 	if to_locker.length() > 0.01:
 		rotation.y = atan2(-to_locker.normalized().x, -to_locker.normalized().z)

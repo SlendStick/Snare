@@ -282,8 +282,8 @@ func _gen_heartbeat(duration: float) -> PackedFloat32Array:
 	for i in n:
 		var t := float(i) / sr
 		var beat := 0.0
-		for b in [0.0, 0.22]:
-			var dt := t - b
+			for b: float in [0.0, 0.22]:
+				var dt: float = t - b
 			if dt >= 0.0:
 				beat += sin(TAU * 55.0 * dt) * exp(-dt * 18.0) * (1.0 if b == 0.0 else 0.7)
 		out[i] = beat * 0.6

@@ -89,7 +89,7 @@ func _ensure_battery_mesh() -> void:
 	bmat.metallic = 0.2
 	bmat.roughness = 0.6
 	_battery_mesh.material_override = bmat
-	_battery_mesh.transform = Transform3D(1,0,0, 0,-4.37114e-08,-1, 0,1,-4.37114e-08, 0,0,0)
+	_battery_mesh.transform = Transform3D(Basis.from_euler(Vector3(PI / 2.0, 0.0, 0.0)), Vector3.ZERO)
 	battery_slot.add_child(_battery_mesh)
 
 func _unhandled_input(event: InputEvent) -> void:
