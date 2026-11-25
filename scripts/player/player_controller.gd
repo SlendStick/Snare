@@ -43,6 +43,14 @@ func _ready() -> void:
 	_ray.collision_mask = 3
 	_ray.target_position = Vector3(0.0, 0.0, -3.2)
 
+	# Слабая «адаптация глаз»: ближайшие стены читаются даже при поломке фонаря.
+	var fill := OmniLight3D.new()
+	fill.light_energy = 0.24
+	fill.omni_range = 5.5
+	fill.light_color = Color(0.55, 0.65, 0.82)
+	fill.shadow_enabled = false
+	_camera.add_child(fill)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if GameManager.is_game_over or GameManager.is_paused:
@@ -96,6 +104,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_F:
 				if not hidden:
 					flashlight.toggle()
+			KEY_P:
+				if GameManager.hud:
+					GameManager.hud.toggle_postprocess()
 			KEY_TAB:
 				if flashlight.service_active:
 					flashlight.cancel_service()

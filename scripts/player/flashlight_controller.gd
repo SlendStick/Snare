@@ -131,9 +131,9 @@ func _build_model() -> void:
 
 	_light = SpotLight3D.new()
 	_light.position.z = -0.33
-	_light.spot_angle = deg_to_rad(29.0)
+	_light.spot_angle = deg_to_rad(34.0)
 	_light.spot_angle_attenuation = 0.35
-	_light.spot_range = 21.0
+	_light.spot_range = 26.0
 	_light.light_color = Color(1.0, 0.92, 0.76)
 	_light.light_energy = 0.0
 	_light.shadow_enabled = true
@@ -195,7 +195,7 @@ func _process(delta: float) -> void:
 			AudioSynth.play_2d("click", -4.0)
 			GameManager.message("Батарейка села. Нажми [R] для замены.")
 		else:
-			energy = 3.4 if charge > 0.2 else 1.9
+			energy = 5.0 if charge > 0.2 else 2.8
 			if charge < 0.2 and randf() < 0.045:
 				energy *= randf_range(0.1, 0.6)
 			_glitch_timer -= delta

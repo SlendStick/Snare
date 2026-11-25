@@ -16,18 +16,18 @@ func _ready() -> void:
 	env.background_mode = Environment.BG_COLOR
 	env.background_color = Color(0.004, 0.005, 0.007, 1.0)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color(0.06, 0.07, 0.09)
-	env.ambient_light_energy = 0.035
+	env.ambient_light_color = Color(0.16, 0.18, 0.22)
+	env.ambient_light_energy = 0.16
 	env.fog_enabled = true
-	env.fog_light_color = Color(0.012, 0.014, 0.018)
-	env.fog_density = 0.055
+	env.fog_light_color = Color(0.035, 0.042, 0.055)
+	env.fog_density = 0.028
 	env.fog_sky_affect = 0.0
 	var world_env := WorldEnvironment.new()
 	world_env.environment = env
 	add_child(world_env)
 
 	var weak_moon := DirectionalLight3D.new()
-	weak_moon.light_energy = 0.016
+	weak_moon.light_energy = 0.045
 	weak_moon.light_color = Color(0.45, 0.52, 0.68)
 	weak_moon.rotation_degrees = Vector3(38.0, 24.0, 0.0)
 	add_child(weak_moon)
@@ -51,4 +51,4 @@ func _ready() -> void:
 	add_child(monster)
 	monster.spawn_away_from(player.global_position)
 
-	GameManager.message("Ты застрял. Найди батарейки, прячься в шкафах и не шуми.", 5.0)
+	GameManager.message("ЦЕЛЬ: выжить. Найди батарейку и не дай монстру найти тебя.", 6.0)

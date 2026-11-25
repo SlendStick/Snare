@@ -6,14 +6,17 @@ const DEATH_SCENE: PackedScene = preload("res://scenes/ui/game_over.tscn")
 
 var fear: float = 0.0
 var post_material: ShaderMaterial = null
+var post_rect: ColorRect = null
 var prompt_label: Label = null
 var status_label: Label = null
 var message_label: Label = null
+var hint_label: Label = null
 var seed_label: Label = null
 var stamina_fill: ColorRect = null
 var pause_panel: Control = null
 var game_over_panel = null
 var _message_timer: float = 0.0
+var _hint_timer: float = 14.0
 var _player = null
 
 
@@ -45,6 +48,7 @@ func _build_postprocess() -> void:
 	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(rect)
+	post_rect = rect
 
 
 func _make_rect(
@@ -110,6 +114,16 @@ func _build_hud() -> void:
 	)
 	message_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
+	hint_label = _make_label(
+		-460.0, -180.0, 920.0, 78.0, 17, Color(0.86, 0.89, 0.82, 0.95), 0.5, 1.0
+	)
+	hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint_label.text = (
+		"КАК ИГРАТЬ: WASD — идти, Shift — бежать (шумно), Ctrl — красться, мышь — смотреть\n"
+		+ "E — поднять батарейку / залезть в шкаф, F — фонарик, R — заменить батарейку\n"
+		+ "Сломался фонарь — тряси мышью. В шкафу: Q — вдох, Space — выдох. [P] — убрать фильтр."
+	)
+
 	_make_rect(20.0, -64.0, 180.0, 7.0, Color(0.12, 0.13, 0.14, 0.8), 0.0, 1.0)
 	stamina_fill = _make_rect(20.0, -64.0, 180.0, 7.0, Color(0.35, 0.62, 0.58, 0.75), 0.0, 1.0)
 
@@ -171,6 +185,9 @@ func _process(delta: float) -> void:
 	_message_timer -= delta
 	if message_label and _message_timer <= 0.0:
 		message_label.text = ""
+	_hint_timer -= delta
+	if hint_label and _hint_timer <= 0.0:
+		hint_label.text = ""
 
 	_player = GameManager.player
 	if not _player or not is_instance_valid(_player):
@@ -200,6 +217,12 @@ func _process(delta: float) -> void:
 				int(GameManager.elapsed) % 60
 			]
 		)
+
+
+func toggle_postprocess() -> void:
+	if post_rect:
+		post_rect.visible = not post_rect.visible
+		show_message("Пост-эффект: " + ("вкл" if post_rect.visible else "выкл"), 1.5)
 
 
 func set_fear(value: float) -> void:
