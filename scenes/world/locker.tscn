@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://locker_scene"]
+
+[ext_resource type="Script" path="res://scripts/interactables/locker.gd" id="1_lk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_body"]
+size = Vector3(1.1, 2.4, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interact"]
+size = Vector3(1.4, 2.4, 1.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+size = Vector3(1.0, 2.25, 0.05)
+
+[node name="Locker" type="Node3D" groups=["interactable", "locker"]]
+script = ExtResource("1_lk")
+
+[node name="Body" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_body")
+
+[node name="InteractArea" type="Area3D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.1)
+shape = SubResource("BoxShape3D_interact")
+
+[node name="DoorPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.2, 0.45)
+
+[node name="DoorMesh" type="MeshInstance3D" parent="DoorPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("BoxMesh_door")
+
+[node name="HideCameraPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0.0)
+
+[node name="ExitPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.1)

@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://flashlight_scene"]
+
+[ext_resource type="Script" path="res://scripts/player/flashlight_controller.gd" id="1_fc"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_body"]
+top_radius = 0.028
+bottom_radius = 0.032
+height = 0.22
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_head"]
+top_radius = 0.042
+bottom_radius = 0.032
+height = 0.06
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cap"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.04
+
+[node name="Flashlight" type="Node3D"]
+script = ExtResource("1_fc")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+light_color = Color(0.95, 0.98, 0.9, 1)
+light_energy = 3.0
+light_volumetric_fog_energy = 1.0
+shadow_enabled = true
+spot_range = 18.0
+spot_angle = 32.0
+spot_angle_attenuation = 0.8
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_body")
+
+[node name="HeadMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.13)
+mesh = SubResource("CylinderMesh_head")
+
+[node name="Cap" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.13)
+
+[node name="CapMesh" type="MeshInstance3D" parent="Cap"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_cap")
+
+[node name="BatterySlot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.08)
