@@ -51,11 +51,4 @@ func _ready() -> void:
 	add_child(monster)
 	monster.spawn_away_from(player.global_position)
 
-	_debug_check_meshes()
 	GameManager.message("Ты застрял. Найди батарейки, прячься в шкафах и не шуми.", 5.0)
-
-
-func _debug_check_meshes() -> void:
-	for mesh_node in get_tree().root.find_children("*", "MeshInstance3D", true, false):
-		if mesh_node.mesh == null:
-			push_error("NULLMESH " + str(mesh_node.get_path()))
